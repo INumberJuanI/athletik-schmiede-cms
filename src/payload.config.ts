@@ -16,18 +16,32 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { Projects } from './collections/Projects'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Helpful envs (optional, but tidy)
+const PUBLIC_SERVER_URL =
+  process.env.PAYLOAD_PUBLIC_SERVER_URL ||
+  process.env.NEXT_PUBLIC_SERVER_URL || // fallback to what you already had
+  getServerSideURL()
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+
+// If admin+API are same-site, LAX is ideal.
+// If they’re different sites, set SAME_SITE to 'none' and ensure HTTPS in prod.
+const SAME_SITE = (process.env.PAYLOAD_COOKIE_SAMESITE as 'lax' | 'strict' | 'none') || 'lax'
+const COOKIE_SECURE = process.env.NODE_ENV === 'production'
+
 export default buildConfig({
+  // ✅ Must equal how the browser reaches the CMS (scheme + host [+ port])
+  serverURL: PUBLIC_SERVER_URL,
+
+  // ✅ Admin config
   admin: {
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
@@ -36,55 +50,68 @@ export default buildConfig({
     user: Users.slug,
     livePreview: {
       breakpoints: [
-        {
-          label: 'Mobile',
-          name: 'mobile',
-          width: 375,
-          height: 667,
-        },
-        {
-          label: 'Tablet',
-          name: 'tablet',
-          width: 768,
-          height: 1024,
-        },
-        {
-          label: 'Desktop',
-          name: 'desktop',
-          width: 1440,
-          height: 900,
-        },
+        { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
+        { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
+        { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
       ],
     },
   },
+
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
+
+  // DB
   db: sqliteAdapter({
     client: {
       url: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
-  cors: [getServerSideURL()].filter(Boolean),
+
+  // Collections
+  collections: [Pages, Posts, Projects, Media, Categories, Users],
+
+  // ✅ CORS & CSRF
+  // Even if admin + API are same-origin, keeping localhost and APP_URL helps dev.
+  cors: [PUBLIC_SERVER_URL, APP_URL, 'http://localhost:3000'].filter(Boolean) as string[],
+  csrf: [PUBLIC_SERVER_URL, APP_URL, 'http://localhost:3000'].filter(Boolean) as string[],
+
+  // Globals
   globals: [Header, Footer],
+
+  // Plugins (keep your existing ones)
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
   ],
+
+  // ✅ Auth / Cookies
+  auth: {
+    // steuert nur noch die Reihenfolge, wie Payload das JWT sucht
+    jwtOrder: ['cookie', 'Bearer', 'JWT'],
+  },
+  // auth: {
+  //   cookies: {
+  //     sameSite: SAME_SITE, // 'lax' for same-site; use 'none' if truly cross-site
+  //     secure: COOKIE_SECURE, // must be true in prod if SameSite='none'
+  //     // domain: '.example.com',   // uncomment if sharing cookies across subdomains in prod
+  //   },
+  // },
+
+  // Secrets
   secret: process.env.PAYLOAD_SECRET,
+
   sharp,
+
+  // TS types
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+
+  // Jobs (unchanged)
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
-        // Allow logged in users to execute this endpoint (default)
         if (req.user) return true
-
-        // If there is no logged in user, then check
-        // for the Vercel Cron secret to be present as an
-        // Authorization header:
         const authHeader = req.headers.get('authorization')
         return authHeader === `Bearer ${process.env.CRON_SECRET}`
       },

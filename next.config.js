@@ -16,6 +16,7 @@ const nextConfig = {
         return {
           hostname: url.hostname,
           protocol: url.protocol.replace(':', ''),
+          pathname: '/**',
         }
       }),
     ],
@@ -33,8 +34,7 @@ const nextConfig = {
   redirects,
   experimental: {
     serverActions: {
-      // Add all hosts you develop through (no protocol here; wildcards ok)
-      allowedOrigins: ['localhost:3000', '*.app.github.dev'],
+      allowedOrigins: ['crispy-fishstick-54645547grr345rv-3000.app.github.dev', 'localhost:3000'],
     },
   },
 }
