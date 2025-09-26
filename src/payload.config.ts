@@ -40,6 +40,7 @@ export default buildConfig({
 
   // ✅ Admin config
   admin: {
+    theme: 'light',
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
@@ -117,5 +118,10 @@ export default buildConfig({
       },
     },
     tasks: [],
+  },
+  upload: {
+    limits: {
+      fileSize: 5000000, // 5MB, written in bytes
+    },
   },
 })
