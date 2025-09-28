@@ -10,17 +10,17 @@ export const InitTheme: React.FC = () => {
       dangerouslySetInnerHTML={{
         __html: `
   (function () {
-    function getImplicitPreference() {
-      var mediaQuery = '(prefers-color-scheme: dark)'
-      var mql = window.matchMedia(mediaQuery)
-      var hasImplicitPreference = typeof mql.matches === 'boolean'
+    // function getImplicitPreference() {
+    //   var mediaQuery = '(prefers-color-scheme: dark)'
+    //   var mql = window.matchMedia(mediaQuery)
+    //   var hasImplicitPreference = typeof mql.matches === 'boolean'
 
-      if (hasImplicitPreference) {
-        return mql.matches ? 'dark' : 'light'
-      }
+    //   if (hasImplicitPreference) {
+    //     return mql.matches ? 'dark' : 'light'
+    //   }
 
-      return null
-    }
+    //   return null
+    // }
 
     function themeIsValid(theme) {
       return theme === 'light' || theme === 'dark'
