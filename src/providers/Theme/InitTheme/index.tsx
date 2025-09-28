@@ -23,7 +23,7 @@ export const InitTheme: React.FC = () => {
     // }
 
     function themeIsValid(theme) {
-      return theme === 'light' || theme === 'dark'
+      return theme === 'light'
     }
 
     var themeToSet = '${defaultTheme}'
@@ -39,7 +39,7 @@ export const InitTheme: React.FC = () => {
       }
     }
 
-    document.documentElement.setAttribute('data-theme', themeToSet)
+    document.documentElement.setAttribute('data-theme', 'light')
   })();
   `,
       }}
