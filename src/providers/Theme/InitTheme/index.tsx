@@ -38,6 +38,7 @@ export const InitTheme: React.FC = () => {
     //     themeToSet = implicitPreference
     //   }
     // }
+    var themeToSet = '${defaultTheme}'
     themeToSet = 'light'
     document.documentElement.setAttribute('data-theme', themeToSet)
   })();
