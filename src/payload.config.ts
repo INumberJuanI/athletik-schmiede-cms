@@ -69,14 +69,16 @@ export default buildConfig({
   db: isDevelopment
     ? sqliteAdapter({
         client: {
-          url: process.env.DATABASE_URI || path.resolve(__dirname, './payload.db'),
+          url: process.env.DATABASE_URI || path.resolve(dirname, './payload.db'),
         },
       })
     : postgresAdapter({
         pool: {
           connectionString: process.env.POSTGRES_URL,
         },
-        push: true, // Oder false mit Migrations
+        // push: true, // Oder false mit Migrations
+        push: false, // ← Wichtig: false für Migrations
+        migrationDir: path.resolve(dirname, 'migrations'),
       }),
 
   // Collections
