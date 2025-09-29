@@ -104,6 +104,7 @@ export default buildConfig({
         // images: true,
       },
       token: process.env.BLOB_READ_WRITE_TOKEN!,
+      clientUploads: true, // sinnvoll auf Vercel (Server-Limit)
     }),
   ],
 
