@@ -6,7 +6,6 @@ import type { Theme, ThemeContextType } from './types'
 
 import canUseDOM from '@/utilities/canUseDOM'
 import { defaultTheme, getImplicitPreference, themeLocalStorageKey } from './shared'
-import { themeIsValid } from './types'
 
 const initialContext: ThemeContextType = {
   setTheme: () => null,
@@ -34,18 +33,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   useEffect(() => {
-    const themeToSet: Theme = defaultTheme
-    // const preference = window.localStorage.getItem(themeLocalStorageKey)
-
-    // if (themeIsValid(preference)) {
-    //   themeToSet = preference
-    // } else {
-    //   const implicitPreference = getImplicitPreference()
-
-    //   if (implicitPreference) {
-    //     themeToSet = implicitPreference
-    //   }
-    // }
+    let themeToSet: Theme = defaultTheme
+    themeToSet = 'light'
 
     document.documentElement.setAttribute('data-theme', themeToSet)
     setThemeState(themeToSet)

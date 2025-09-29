@@ -1,7 +1,7 @@
 import Script from 'next/script'
 import React from 'react'
 
-import { defaultTheme, themeLocalStorageKey } from '../ThemeSelector/types'
+import { defaultTheme } from '../ThemeSelector/types'
 
 export const InitTheme: React.FC = () => {
   return (
@@ -10,9 +10,7 @@ export const InitTheme: React.FC = () => {
       dangerouslySetInnerHTML={{
         __html: `
         (function () {
-          var themeToSet = '${defaultTheme}'
-          themeToSet = 'light'
-          document.documentElement.setAttribute('data-theme', themeToSet)
+          document.documentElement.setAttribute('data-theme', 'light')
         })();
         `,
       }}
