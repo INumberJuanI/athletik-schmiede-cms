@@ -1,5 +1,5 @@
 // storage-adapter-import-placeholder
-// import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
@@ -31,10 +31,7 @@ const PUBLIC_SERVER_URL =
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
 
-// If admin+API are same-site, LAX is ideal.
-// If they’re different sites, set SAME_SITE to 'none' and ensure HTTPS in prod.
-// const SAME_SITE = (process.env.PAYLOAD_COOKIE_SAMESITE as 'lax' | 'strict' | 'none') || 'lax'
-// const COOKIE_SECURE = process.env.NODE_ENV === 'production'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 export default buildConfig({
   // ✅ Must equal how the browser reaches the CMS (scheme + host [+ port])
@@ -69,12 +66,18 @@ export default buildConfig({
   //     url: process.env.DATABASE_URI || '',
   //   },
   // }),
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.POSTGRES_URL,
-    },
-    push: true, 
-  }),
+  db: isDevelopment
+    ? sqliteAdapter({
+        client: {
+          url: process.env.DATABASE_URI || path.resolve(__dirname, './payload.db'),
+        },
+      })
+    : postgresAdapter({
+        pool: {
+          connectionString: process.env.POSTGRES_URL,
+        },
+        push: true, // Oder false mit Migrations
+      }),
 
   // Collections
   collections: [Pages, Posts, Projects, Media, Categories, Users],
