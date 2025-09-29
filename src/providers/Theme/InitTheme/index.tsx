@@ -22,24 +22,24 @@ export const InitTheme: React.FC = () => {
     //   return null
     // }
 
-    function themeIsValid(theme) {
-      return theme === 'light'
-    }
+    // function themeIsValid(theme) {
+    //   return theme === 'light'
+    // }
 
-    var themeToSet = '${defaultTheme}'
-    var preference = window.localStorage.getItem('${themeLocalStorageKey}')
+    // var themeToSet = '${defaultTheme}'
+    // var preference = window.localStorage.getItem('${themeLocalStorageKey}')
 
-    if (themeIsValid(preference)) {
-      themeToSet = preference
-    } else {
-      var implicitPreference = getImplicitPreference()
+    // if (themeIsValid(preference)) {
+    //   themeToSet = preference
+    // } else {
+    //   var implicitPreference = getImplicitPreference()
 
-      if (implicitPreference) {
-        themeToSet = implicitPreference
-      }
-    }
-    console.log(themeToSet)
-    document.documentElement.setAttribute('data-theme', 'light')
+    //   if (implicitPreference) {
+    //     themeToSet = implicitPreference
+    //   }
+    // }
+    themeToSet = 'light'
+    document.documentElement.setAttribute('data-theme', themeToSet)
   })();
   `,
       }}
