@@ -32,7 +32,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
               })}
             </ul>
           )}
-          <Image src={'/logo.svg'} alt="logo" width={240} height={250} />
+          <Image className="mx-auto" src={'/logo.svg'} alt="logo" width={240} height={250} />
         </div>
       </div>
       <div className="min-h-[80vh] select-none">
