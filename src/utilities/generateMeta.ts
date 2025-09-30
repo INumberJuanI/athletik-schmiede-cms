@@ -26,7 +26,11 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title ? doc?.meta?.title + ' | Athletik Schmiede' : 'Athletik Schmiede'
+  const title = doc?.meta?.title
+    ? doc?.meta?.title == 'Athletik Schmiede'
+      ? 'Athletik Schmiede'
+      : doc?.meta?.title + ' | Athletik Schmiede'
+    : 'Athletik Schmiede'
 
   return {
     description: doc?.meta?.description,
