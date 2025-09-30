@@ -7,6 +7,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import Image from 'next/image'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -31,6 +32,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
               })}
             </ul>
           )}
+          <Image src={'/logo.svg'} alt="logo" width={240} height={250} />
         </div>
       </div>
       <div className="min-h-[80vh] select-none">
