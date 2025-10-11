@@ -1,11 +1,13 @@
 import type { Block, Field } from 'payload'
+import { RichTextBlock } from '@/blocks/RichTextBlock/config'
+import { MediaBlock } from '@/blocks/MediaBlock/config'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+// import {
+//   FixedToolbarFeature,
+//   HeadingFeature,
+//   InlineToolbarFeature,
+//   lexicalEditor,
+// } from '@payloadcms/richtext-lexical'
 
 import { link } from '@/fields/link'
 
@@ -34,20 +36,25 @@ const columnFields: Field[] = [
     ],
   },
   {
-    name: 'richText',
-    type: 'richText',
-    editor: lexicalEditor({
-      features: ({ rootFeatures }) => {
-        return [
-          ...rootFeatures,
-          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-          FixedToolbarFeature(),
-          InlineToolbarFeature(),
-        ]
-      },
-    }),
-    label: false,
+    name: 'content',
+    type: 'blocks',
+    blocks: [RichTextBlock, MediaBlock],
   },
+  // {
+  //   name: 'richText',
+  //   type: 'richText',
+  //   editor: lexicalEditor({
+  //     features: ({ rootFeatures }) => {
+  //       return [
+  //         ...rootFeatures,
+  //         HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+  //         FixedToolbarFeature(),
+  //         InlineToolbarFeature(),
+  //       ]
+  //     },
+  //   }),
+  //   label: false,
+  // },
   {
     name: 'enableLink',
     type: 'checkbox',
