@@ -5,6 +5,8 @@ import RichText from '@/components/RichText'
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
 import { CMSLink } from '../../components/Link'
+import { MediaBlock } from '../MediaBlock/Component'
+import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns } = props
@@ -22,7 +24,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
         {columns &&
           columns.length > 0 &&
           columns.map((col, index) => {
-            const { enableLink, link, richText, size } = col
+            const { enableLink, link, content, size } = col
 
             return (
               <div
@@ -31,7 +33,24 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                 })}
                 key={index}
               >
-                {richText && <RichText data={richText} enableGutter={false} />}
+                {/* {richText && <RichText data={richText} enableGutter={false} />} */}
+                {content &&
+                  content.map((block) => {
+                    if (block.blockType === 'richText') {
+                      return (
+                        <RichText
+                          key={block.id}
+                          data={block.richText as DefaultTypedEditorState}
+                          enableGutter={false}
+                        />
+                      )
+                    }
+                    if (block.blockType === 'mediaBlock') {
+                      return (
+                        <MediaBlock key={block.id} media={block.media} blockType={'mediaBlock'} />
+                      )
+                    }
+                  })}
 
                 {enableLink && <CMSLink {...link} />}
               </div>
