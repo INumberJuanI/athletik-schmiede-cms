@@ -3,7 +3,7 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   // ---- GUARD: if the schema already exists, skip this baseline migration
   // We check for a handful of core tables that your snapshot creates.
-  const { rows } = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT COUNT(*)::int AS cnt
     FROM pg_class c
     JOIN pg_namespace n ON n.oid = c.relnamespace
@@ -15,15 +15,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
         'users',
         'payload_migrations'
       );
-  `)
+  `);
 
-  const alreadyHasBaseline = (rows?.[0]?.cnt ?? 0) >= 4
+  // Coerce the COUNT result to a number to satisfy TS
+  const rowsArr = (result as any)?.rows ?? [];
+  const cnt = Number(rowsArr[0]?.cnt ?? 0);
+  const alreadyHasBaseline = cnt >= 4;
   if (alreadyHasBaseline) {
-    payload?.logger?.info?.(
-      '[20251018_124259] Baseline tables already present — skipping idempotently.',
-    )
-    return
+    payload?.logger?.info?.('[20251018_124259] Baseline tables already present — skipping idempotently.');
+    return;
   }
+
 
   await db.execute(sql`
    CREATE TYPE "public"."enum_pages_hero_links_link_type" AS ENUM('reference', 'custom');
