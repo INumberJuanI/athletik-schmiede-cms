@@ -1,5 +1,5 @@
 // storage-adapter-import-placeholder
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+// import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
@@ -23,20 +23,7 @@ import { Projects } from './collections/Projects'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// Helpful envs (optional, but tidy)
-const PUBLIC_SERVER_URL =
-  process.env.PAYLOAD_PUBLIC_SERVER_URL ||
-  process.env.NEXT_PUBLIC_SERVER_URL || // fallback to what you already had
-  getServerSideURL()
-
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-
-const isDevelopment = process.env.NODE_ENV === 'development'
-
 export default buildConfig({
-  // ✅ Must equal how the browser reaches the CMS (scheme + host [+ port])
-  serverURL: PUBLIC_SERVER_URL,
-
   // ✅ Admin config
   admin: {
     theme: 'light',
@@ -60,34 +47,21 @@ export default buildConfig({
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
 
-  // DB
-  // db: sqliteAdapter({
-  //   client: {
-  //     url: process.env.DATABASE_URI || '',
-  //   },
-  // }),
-  db: isDevelopment
-    ? sqliteAdapter({
-        client: {
-          url: process.env.DATABASE_URI || path.resolve(dirname, './payload.db'),
-        },
-      })
-    : postgresAdapter({
-        pool: {
-          connectionString: process.env.POSTGRES_URL,
-        },
-        // push: true, // Oder false mit Migrations
-        push: false, // ← Wichtig: false für Migrations
-        migrationDir: path.resolve(dirname, 'migrations'),
-      }),
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.POSTGRES_URL,
+    },
+    // push: true, // Oder false mit Migrations
+    push: false, // ← Wichtig: false für Migrations
+    migrationDir: path.resolve(dirname, 'migrations'),
+  }),
 
   // Collections
   collections: [Pages, Posts, Projects, Media, Categories, Users],
 
   // ✅ CORS & CSRF
   // Even if admin + API are same-origin, keeping localhost and APP_URL helps dev.
-  cors: [PUBLIC_SERVER_URL, APP_URL, 'http://localhost:3000'].filter(Boolean) as string[],
-  csrf: [PUBLIC_SERVER_URL, APP_URL, 'http://localhost:3000'].filter(Boolean) as string[],
+  cors: [getServerSideURL()].filter(Boolean),
 
   // Globals
   globals: [Header, Footer],

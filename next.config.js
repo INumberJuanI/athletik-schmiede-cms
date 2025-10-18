@@ -34,8 +34,8 @@ const nextConfig = {
   redirects,
   experimental: {
     serverActions: {
-      allowedOrigins: ['crispy-fishstick-54645547grr345rv-3000.app.github.dev', 'localhost:3000'],
-      serverActions: { bodySizeLimit: '100mb' }, // gilt nur für server actions
+      allowedOrigins: [process.env.NEXT_PUBLIC_SERVER_URL.replace('https://', '')],
+      bodySizeLimit: '100mb',
     },
   },
 }
