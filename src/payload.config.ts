@@ -51,9 +51,11 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URL,
     },
-    // push: true, // Oder false mit Migrations
-    push: true, // ← Wichtig: false für Migrations
-    migrationDir: path.resolve(dirname, 'migrations'),
+    idType: 'serial',
+    allowIDOnCreate: true,
+    push: true,
+    migrationDir: path.resolve(dirname, 'payload-migrations'),
+    blocksAsJSON: true,
   }),
 
   // Collections
