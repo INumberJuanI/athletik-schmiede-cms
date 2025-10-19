@@ -52,7 +52,7 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL,
     },
     // push: true, // Oder false mit Migrations
-    push: false, // ← Wichtig: false für Migrations
+    push: true, // ← Wichtig: false für Migrations
     migrationDir: path.resolve(dirname, 'migrations'),
   }),
 
