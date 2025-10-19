@@ -84,6 +84,11 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           fields: [
             {
+              name: 'heroImage',
+              type: 'upload',
+              relationTo: 'media',
+            },
+            {
               name: 'layout',
               type: 'blocks',
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
@@ -95,34 +100,32 @@ export const Posts: CollectionConfig<'posts'> = {
           ],
           label: 'Content',
         },
-        // {
-        //   fields: [
-        //     {
-        //       name: 'heroImage',
-        //       type: 'upload',
-        //       relationTo: 'media',
-        //     },
-        //     {
-        //       name: 'content',
-        //       type: 'richText',
-        //       editor: lexicalEditor({
-        //         features: ({ rootFeatures }) => {
-        //           return [
-        //             ...rootFeatures,
-        //             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-        //             BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
-        //             FixedToolbarFeature(),
-        //             InlineToolbarFeature(),
-        //             HorizontalRuleFeature(),
-        //           ]
-        //         },
-        //       }),
-        //       label: false,
-        //       required: true,
-        //     },
-        //   ],
-        //   label: 'Content',
-        // },
+        {
+          fields: [
+            {
+              name: 'content',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                    HorizontalRuleFeature(),
+                  ]
+                },
+              }),
+              label: false,
+              required: true,
+              admin: {
+                hidden: true,
+              },
+            },
+          ],
+          label: 'Content',
+        },
         {
           fields: [
             {
