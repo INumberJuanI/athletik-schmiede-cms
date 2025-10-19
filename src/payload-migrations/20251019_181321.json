@@ -1,5 +1,5 @@
 {
-  "id": "5b8b3991-92ee-4d3a-bbdd-5932121cfcd8",
+  "id": "aa1e6f90-059b-46ba-8d2b-f976cbd637e7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1232,20 +1232,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "layout": {
-          "name": "layout",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": false
-        },
         "hero_image_id": {
           "name": "hero_image_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "content": {
-          "name": "content",
+        "layout": {
+          "name": "layout",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
@@ -1745,20 +1739,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "version_layout": {
-          "name": "version_layout",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": false
-        },
         "version_hero_image_id": {
           "name": "version_hero_image_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "version_content": {
-          "name": "version_content",
+        "version_layout": {
+          "name": "version_layout",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
