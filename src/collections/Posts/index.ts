@@ -26,6 +26,10 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
+import { CallToAction } from '@/blocks/CallToAction/config'
+import { Content } from '@/blocks/Content/config'
+import { Archive } from '@/blocks/ArchiveBlock/config'
+import { FormBlock } from '@/blocks/Form/config'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -80,31 +84,45 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           fields: [
             {
-              name: 'heroImage',
-              type: 'upload',
-              relationTo: 'media',
-            },
-            {
-              name: 'content',
-              type: 'richText',
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
-                  return [
-                    ...rootFeatures,
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
-                    FixedToolbarFeature(),
-                    InlineToolbarFeature(),
-                    HorizontalRuleFeature(),
-                  ]
-                },
-              }),
-              label: false,
+              name: 'layout',
+              type: 'blocks',
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
               required: true,
+              admin: {
+                initCollapsed: true,
+              },
             },
           ],
           label: 'Content',
         },
+        // {
+        //   fields: [
+        //     {
+        //       name: 'heroImage',
+        //       type: 'upload',
+        //       relationTo: 'media',
+        //     },
+        //     {
+        //       name: 'content',
+        //       type: 'richText',
+        //       editor: lexicalEditor({
+        //         features: ({ rootFeatures }) => {
+        //           return [
+        //             ...rootFeatures,
+        //             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+        //             BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+        //             FixedToolbarFeature(),
+        //             InlineToolbarFeature(),
+        //             HorizontalRuleFeature(),
+        //           ]
+        //         },
+        //       }),
+        //       label: false,
+        //       required: true,
+        //     },
+        //   ],
+        //   label: 'Content',
+        // },
         {
           fields: [
             {

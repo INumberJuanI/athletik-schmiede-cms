@@ -1,5 +1,5 @@
 {
-  "id": "06127dad-b8db-4f6c-88e8-2b216f373e56",
+  "id": "6c0669e9-e77f-4091-8700-12c2ec8eb937",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1232,14 +1232,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "hero_image_id": {
-          "name": "hero_image_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "content": {
-          "name": "content",
+        "layout": {
+          "name": "layout",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
@@ -1305,21 +1299,6 @@
         }
       },
       "indexes": {
-        "posts_hero_image_idx": {
-          "name": "posts_hero_image_idx",
-          "columns": [
-            {
-              "expression": "hero_image_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "posts_meta_meta_image_idx": {
           "name": "posts_meta_meta_image_idx",
           "columns": [
@@ -1397,19 +1376,6 @@
         }
       },
       "foreignKeys": {
-        "posts_hero_image_id_media_id_fk": {
-          "name": "posts_hero_image_id_media_id_fk",
-          "tableFrom": "posts",
-          "tableTo": "media",
-          "columnsFrom": [
-            "hero_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
         "posts_meta_image_id_media_id_fk": {
           "name": "posts_meta_image_id_media_id_fk",
           "tableFrom": "posts",
@@ -1739,14 +1705,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "version_hero_image_id": {
-          "name": "version_hero_image_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "version_content": {
-          "name": "version_content",
+        "version_layout": {
+          "name": "version_layout",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
@@ -1841,21 +1801,6 @@
           "columns": [
             {
               "expression": "parent_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "_posts_v_version_version_hero_image_idx": {
-          "name": "_posts_v_version_version_hero_image_idx",
-          "columns": [
-            {
-              "expression": "version_hero_image_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -2009,19 +1954,6 @@
           "tableTo": "posts",
           "columnsFrom": [
             "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "_posts_v_version_hero_image_id_media_id_fk": {
-          "name": "_posts_v_version_hero_image_id_media_id_fk",
-          "tableFrom": "_posts_v",
-          "tableTo": "media",
-          "columnsFrom": [
-            "version_hero_image_id"
           ],
           "columnsTo": [
             "id"
